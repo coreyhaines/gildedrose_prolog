@@ -8,6 +8,10 @@ item(sulfras, 10, 0).
 improvingItem(brie).
 legendaryItem(sulfras).
 
+normalItem(Name) :-
+  not(improvingItem(Name)),
+  not(legendaryItem(Name)).
+
 products(Name, Quality, DaysPassed) :-
   itemQuality(Name, Quality, DaysPassed).
 
@@ -28,14 +32,12 @@ itemQuality(Name, Quality, DaysPassed) :-
 
 itemQuality(Name, Quality, DaysPassed) :-
   item(Name, OriginalQuality, SellIn),
-  not(improvingItem(Name)),
-  not(legendaryItem(Name)),
+  normalItem(Name),
   DaysPassed =< SellIn,
   guardQuality(OriginalQuality - DaysPassed, Quality).
 
 itemQuality(Name, Quality, DaysPassed) :-
   item(Name, OriginalQuality, SellIn),
-  not(improvingItem(Name)),
-  not(legendaryItem(Name)),
+  normalItem(Name),
   DaysPassed > SellIn,
   guardQuality(OriginalQuality - SellIn - (2*(DaysPassed-SellIn)), Quality).
