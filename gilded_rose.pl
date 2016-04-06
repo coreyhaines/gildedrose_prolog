@@ -15,11 +15,11 @@ guardQuality(Quality, GuardedQuality) :-
   Quality =< 50, GuardedQuality is Quality.
 
 itemQuality(Name, Quality) :-
-  item(Name, OriginalQuality, _),
-  improvingItem(Name),
-  daysPassed(DaysPassed),
-  DaysPassed =< SellIn,
-  guardQuality(OriginalQuality + DaysPassed, Quality).
+ item(Name, OriginalQuality, SellIn),
+ improvingItem(Name),
+ daysPassed(DaysPassed),
+ DaysPassed =< SellIn,
+ guardQuality(OriginalQuality + DaysPassed, Quality).
 
 itemQuality(Name, Quality) :-
   item(Name, OriginalQuality, SellIn),
