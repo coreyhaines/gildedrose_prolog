@@ -1,18 +1,18 @@
 % item(Name, Quality, SellIn)
 item(apple, 10, 1).
 item(pear, 3, 5).
-item(peach, 1, 5).
+item(peach, 1, 1).
 item(brie, 10, 2).
 
 improvingItem(brie).
 
 availableProducts(Name, Quality) :-
-  itemQuality(Name, Quality),
-  Quality > 0.
+  itemQuality(Name, Quality).
 
 guardQuality(Quality, GuardedQuality) :-
   Quality > 50, GuardedQuality is 50;
-  Quality =< 50, GuardedQuality is Quality.
+  Quality < 0, GuardedQuality is 0;
+  Quality >= 0, Quality =< 50, GuardedQuality is Quality.
 
 itemQuality(Name, Quality) :-
  item(Name, OriginalQuality, SellIn),
@@ -26,14 +26,14 @@ itemQuality(Name, Quality) :-
   not(improvingItem(Name)),
   daysPassed(DaysPassed),
   DaysPassed =< SellIn,
-  Quality is OriginalQuality - DaysPassed.
+  guardQuality(OriginalQuality - DaysPassed, Quality).
 
 itemQuality(Name, Quality) :-
   item(Name, OriginalQuality, SellIn),
   not(improvingItem(Name)),
   daysPassed(DaysPassed),
   DaysPassed > SellIn,
-  Quality is OriginalQuality - SellIn - (2*(DaysPassed-SellIn)).
+  guardQuality(OriginalQuality - SellIn - (2*(DaysPassed-SellIn)), Quality).
 
 :- dynamic day_passed/1.
 day_has_passed() :-
