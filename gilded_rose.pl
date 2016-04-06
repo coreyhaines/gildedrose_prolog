@@ -11,10 +11,8 @@ availableProducts(Name, Quality) :-
   Quality > 0.
 
 guardQuality(Quality, GuardedQuality) :-
-  Quality > 50,
-  GuardedQuality is 50;
-  Quality =< 50,
-  GuardedQuality is Quality.
+  Quality > 50, GuardedQuality is 50;
+  Quality =< 50, GuardedQuality is Quality.
 
 itemQuality(Name, Quality) :-
   item(Name, OriginalQuality, _),
